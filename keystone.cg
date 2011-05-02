@@ -1,0 +1,15 @@
+void fKeystone(
+    sampler2D texture  : TEXUNIT0,
+    float2 tc          : TEXCOORD0,
+    uniform float3x3 H,
+    out float4 pix     : COLOR0
+){
+    const float3 ktc3 = mul(H,float3(tc-float2(0.5,0.5),1));
+    const float2 ktc = float2(0.5,0.5) + ktc3.xy / ktc3.z;
+
+    if(0 <= ktc.x && ktc.x <=1 && 0 <= ktc.y && ktc.y <= 1 ) {
+        pix = tex2D(texture, ktc);
+    }else{
+        discard;
+    }
+}
